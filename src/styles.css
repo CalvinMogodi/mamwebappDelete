@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+a { cursor: pointer }
+
+.text-center{
+    text-align: center;
+}
+
+.row{
+    padding: 15px 0px 15px 0px;
+}
+:host ::ng-deep button {
+    margin-right: .25em;
+}
+
+:host ::ng-deep .custom-toast .ui-toast-message {
+    color: #ffffff;
+    background: #FC466B;
+    background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+    background: linear-gradient(to right, #3F5EFB, #FC466B);
+}
+
+:host ::ng-deep .custom-toast .ui-toast-close-icon {
+    color: #ffffff;
+}
+
+.container{
+    padding: 100px 015px 0px 250px;
+}
