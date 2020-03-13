@@ -24,5 +24,11 @@ a { cursor: pointer }
 }
 
 .container{
-    padding: 100px 015px 0px 250px;
+    padding: 100px 15px 0px 120px;
+    height: 100%;
+    width: 100%;
+    bottom: 0px;
+    position: absolute;
+    top: 0px;
+    background: #26343f;
 }

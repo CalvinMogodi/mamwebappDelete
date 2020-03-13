@@ -121,7 +121,7 @@
 }
 
 a {
-    color: #4C78A4;
+    color: #007ad9;
     text-decoration: none;
 }
 
@@ -132,8 +132,8 @@ a {
 body .ui-button {
     margin: 0;
     color: #ffffff;
-    background-color: #4C78A4;
-    border: 1px solid #4C78A4;
+    background-color: #007ad9;
+    border: 1px solid #007ad9;
     font-size: 14px;
     -moz-transition: background-color 0.3s, box-shadow 0.3s;
     -o-transition: background-color 0.3s, box-shadow 0.3s;

@@ -4,7 +4,7 @@
 }
 .layout-menu-container {
     position: fixed;
-    width: 235px;
+    width: 100px;
     z-index: 99;
     top: 60px;
     height: 100%;
@@ -68,7 +68,6 @@
 }
 
 .layout-menu-container .ui-scrollpanel .menu-scroll-content {
-    width: 253px;
     padding-right: 18px;
 }
 .ui-widget, .ui-widget * {
@@ -78,7 +77,7 @@
 .profile {
     box-sizing: border-box;
     padding-top: 2em;
-    width: 250px;
+    width: 100px;
     height: 145px;
     text-align: center;
     background-size: 250px 145px;
@@ -96,9 +95,10 @@
 
 .profile-name {
     display: inline-block;
-    color: #212121;
+    color: #FFF;
     vertical-align: middle;
     font-size: 1em;
+    text-transform: capitalize;
 }
 
 .ui-widget, .ui-widget * {
@@ -169,5 +169,7 @@
     display: inline-block;
     vertical-align: middle;
     margin-right: 0.5em;
-    font-size: 1.5em;
+    font-size: 2em;
+    padding-left: 15px;
+    color: #FFF;
 }

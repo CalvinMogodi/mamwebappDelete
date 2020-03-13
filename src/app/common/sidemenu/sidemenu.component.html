@@ -1,6 +1,6 @@
 <div class="layout-menu-container">
     <p-scrollpanel>
-        <div class="ui-scrollpanel ui-widget ui-widget-content ui-corner-all" style="height: 100%;">
+        <div class="ui-scrollpanel ui-widget ui-widget-content ui-corner-all" style="height: 100%; background-color: #172027;">
             <div class="ui-scrollpanel-wrapper">
                 <div class="ui-scrollpanel-content">
                     <div class="menu-scroll-content">
@@ -13,14 +13,12 @@
                         <ul app-submenu="" class="ultima-menu ultima-main-menu clearfix ng-tns-c1-0" parentactive="true" root="true" visible="true">
                             <li class="ng-tns-c1-0 ng-star-inserted">
                                 <a class="ripplelink active-menuitem-routerlink" (click)="navigate('dashboard')">
-                                    <i class="pi pi-home"></i>
-                                    <span class="ng-tns-c1-0">Dashboard</span>
+                                    <i class="pi pi-home" pTooltip="Dashboard"></i>
                                 </a>
                             </li>
                             <li class="ng-tns-c1-0 ng-star-inserted">
                                 <a class="ripplelink" (click)="navigate('user')">
-                                    <i class="pi pi-users"></i>
-                                    <span class="ng-tns-c1-0">Users</span>
+                                    <i class="pi pi-users" pTooltip="Users"></i>
                                 </a>
                             </li>
                         </ul>   

@@ -20,7 +20,7 @@
                     {{col.header}}
                     <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                 </th>
-                <th style="width:8em">Reset</th>
+                <th style="width:10em">Reset Password</th>
                 <th style="width:8em"></th>
             </tr>
         </ng-template>
@@ -47,9 +47,10 @@
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <th>
-                    <a (click)="confirm1(rowData)"> Reset Password</a>
-                </th>
+               
+                <td>
+                    <a (click)="confirm1(rowData)"> Reset</a>
+                </td>
                 
                 <td style="text-align:center">
                     <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
