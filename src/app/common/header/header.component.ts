@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user.model';
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -23,7 +24,8 @@ export class HeaderComponent implements OnInit {
   returnUrl: string;
   error = '';
   currentUser: User;
-  
+  showSideMenu: boolean = true;
+
   constructor(private router: Router,
     private messageService: MessageService,
     private formBuilder: FormBuilder,

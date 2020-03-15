@@ -32,3 +32,34 @@ a { cursor: pointer }
     top: 0px;
     background: #26343f;
 }
+
+body .ui-breadcrumb {
+    background-color: #172027 !important;
+}
+
+body .ui-table .ui-table-caption, body .ui-table .ui-table-summary {
+    background-color: #172027 !important;
+}
+
+body .ui-paginator {
+    background-color: #172027 !important;
+}
+
+body .ui-table .ui-table-tbody > tr {
+    background-color: #26343f !important;
+}
+body .ui-dialog .ui-dialog-titlebar {
+    background-color: #172027 !important;
+}
+
+body .ui-dialog .ui-dialog-content {
+    background-color: #26343f !important;
+}
+
+body .ui-dialog .ui-dialog-footer {
+    background-color: #172027 !important;
+}
+
+body .ui-inputgroup .ui-inputgroup-addon {
+    background-color: #172027 !important;
+}

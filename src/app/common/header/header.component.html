@@ -4,8 +4,10 @@
     </div>
     <div class="topbar-right">
 
-        <a href="#" id="menu-button" class="">
-            <i class="fa fa-angle-left"></i></a><a href="#" id="topbar-menu-button"><i class="fa fa-bars"></i></a>
+        <a (click)="showSideMenu = !showSideMenu" id="menu-button" class="">
+            <i *ngIf="showSideMenu == true" class="pi pi-angle-left"></i>
+            <i *ngIf="showSideMenu == false" class="pi pi-angle-right"></i>
+        </a><a href="#" id="topbar-menu-button"><i class="fa fa-bars"></i></a>
         <ul class="topbar-items fadeInDown">
             <li><a (click)="showSettings = !showSettings"><i class="pi pi-cog topbar-icon"></i> <span
                         class="topbar-item-name">Settings</span></a>
@@ -19,7 +21,7 @@
         </ul>
     </div>
 </div>
-<div>
+<div *ngIf="showSideMenu">
     <app-sidemenu></app-sidemenu>
 </div>
 
