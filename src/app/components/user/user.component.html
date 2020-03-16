@@ -64,7 +64,7 @@
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <p-messages [value]="msgs"></p-messages>
-
+<div *ngIf="showDialog" class="dialogBackgroud"></div>
 <p-dialog header="Create User" [(visible)]="showDialog" [style]="{width: '40vw'}" [baseZIndex]="10000">
     <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
         <div class="ui-g ui-fluid">

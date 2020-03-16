@@ -21,10 +21,10 @@
         </ul>
     </div>
 </div>
-<div *ngIf="showSideMenu">
+<div *ngIf="showSideMenu" class="transition-delay">
     <app-sidemenu></app-sidemenu>
 </div>
-
+<div *ngIf="showDialog" class="dialogBackgroud"></div>
 <p-dialog header="Change Password" [(visible)]="showDialog" [style]="{width: '40vw'}" [baseZIndex]="10000">
     <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit()">
         <div class="ui-g ui-fluid">

@@ -258,9 +258,9 @@
 
 /* SideMenu */
 
-.container{
-
-    padding: 100px 15px 0px 0px !important;
+.transition-delay
+{
+    transition: opacity 1s ease-out;
 }
 
 

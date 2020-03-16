@@ -63,3 +63,16 @@ body .ui-dialog .ui-dialog-footer {
 body .ui-inputgroup .ui-inputgroup-addon {
     background-color: #172027 !important;
 }
+
+.dialogBackgroud{
+    height: 100%;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    z-index: 11000;
+    bottom: 0px;
+    position: absolute;
+    top: 0px;
+    opacity: 0.7;
+    background: #26343f;
+}

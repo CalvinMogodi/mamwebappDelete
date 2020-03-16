@@ -46,6 +46,8 @@
     </div>
 </div>
 
+<div *ngIf="showDialog" class="dialogBackgroud"></div>
+
 <p-dialog header="Forgot Password" [(visible)]="showDialog" [style]="{width: '40vw'}" [baseZIndex]="10000">
     <form [formGroup]="forgotPasswordForm" (ngSubmit)="onForgotPasswordSubmit()">
         <div class="ui-g ui-fluid">
