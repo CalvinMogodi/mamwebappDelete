@@ -3,13 +3,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { UserService } from '../../services/user/user.service';
-
+import { MessageService } from 'primeng/api';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
 
@@ -30,7 +31,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private messageService: MessageService
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
@@ -92,13 +94,17 @@ export class LoginComponent implements OnInit {
     this.userService.forgotpassword(this.ff.username.value, randomstring).pipe(first()).subscribe(isUpdated => {
       if (isUpdated) {
         this.showDialog = false;
-        //this.msgs = [{severity:'info', summary:'Confirmed', detail:'You have accepted'}];
+        this.showToast('Forgot Password', 'Please check your email to change your passsword');
         this.forgotPasswordLoading = false;
       } else {
         this.forgotPasswordError = 'This username do not exist.';
         this.forgotPasswordLoading = false;
       }
     });
+  }
+
+  showToast(summary: string, detail: string) {
+    this.messageService.add({severity:'success', summary:summary, detail:detail});
   }
 
 }

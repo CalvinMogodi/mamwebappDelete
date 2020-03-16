@@ -28,14 +28,16 @@ export class UserComponent implements OnInit {
   showDialog: boolean = false;
   showConfirmResetPassword: boolean = false;
   msgs: any[] = [];
+  errorMsg:string = 'error';
 
-  constructor(private userService: UserService,
+  constructor(private userService: UserService,    
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
     private authenticationService: AuthenticationService,
     private messageService: MessageService) { }
 
   ngOnInit() {
+    this.showToast('Update User', 'User has been updated successful.');
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
     });
@@ -106,7 +108,7 @@ export class UserComponent implements OnInit {
   }
 
   showToast(summary: string, detail: string) {
-    this.messageService.add({ severity: 'success', summary: summary, detail: detail });
+    this.messageService.add({severity:'success', summary:summary, detail:detail});
   }
   showErrorToast(summary: string, detail: string) {
     this.messageService.add({ severity: 'error', summary: summary, detail: detail });
@@ -161,10 +163,10 @@ export class UserComponent implements OnInit {
           var randomstring = Math.random().toString(36).slice(-8);
           this.userService.resetPassword(user.username, randomstring).pipe(first()).subscribe(isUpdated => {
             if (isUpdated) {
-              this.msgs = [{severity:'info', summary:'Confirmed', detail:'You have accepted'}];
+              this.showToast('Reset Password','Please check your email to reset your password');
               this.loading = false;
             } else {
-              this.showErrorToast('Update User', 'User has not been updated successful.');
+              this.showErrorToast('Reset Password', 'Failed to reset your password.');
               this.loading = false;
             }
           });
@@ -174,4 +176,5 @@ export class UserComponent implements OnInit {
         }
     });
 }
+
 }

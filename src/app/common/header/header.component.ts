@@ -12,6 +12,22 @@ import { User } from 'src/app/models/user.model';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
+  styles: [`
+        :host ::ng-deep button {
+            margin-right: .25em;
+        }
+
+        :host ::ng-deep .custom-toast .ui-toast-message {
+            color: #ffffff;
+            background: #FC466B;
+            background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+            background: linear-gradient(to right, #3F5EFB, #FC466B);
+        }
+
+        :host ::ng-deep .custom-toast .ui-toast-close-icon {
+            color: #ffffff;
+        }
+    `],
   providers: [MessageService]
 })
 export class HeaderComponent implements OnInit {
@@ -33,7 +49,6 @@ export class HeaderComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.showSuccess();
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
       if(!this.currentUser.passwordIsChanged)
@@ -65,7 +80,7 @@ export class HeaderComponent implements OnInit {
     this.userService.changePassword(this.currentUser.username, this.f.newpassword.value, this.f.oldpassword.value).pipe()
       .subscribe(
         data => {
-          this.showSuccess();
+          this.showSuccess('Change Password', 'Password has been changed successful.');
           this.showDialog = false;
         },
         error => {
@@ -74,8 +89,9 @@ export class HeaderComponent implements OnInit {
         });
   }
 
-  showSuccess() {
-    this.messageService.add({severity:'success', summary: 'Change Password', detail:'Password has been changed successful.'});
+  showSuccess(title: string,detail: string ) {
+    this.messageService.addAll([{severity:'success', summary: title, detail:detail}]);
 }
+
 
 }

@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
-import {MenuItem} from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user/user.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import {Message} from 'primeng//api';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
+  , providers: [MessageService]
 })
 export class DashboardComponent implements OnInit {
   loading = false;
@@ -16,6 +18,7 @@ export class DashboardComponent implements OnInit {
   userFromApi: User;
   private items: MenuItem[];
   home: MenuItem;
+  msgs: Message[] = [];
 
   constructor( 
     private userService: UserService,

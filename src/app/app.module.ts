@@ -30,6 +30,9 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {TooltipModule} from 'primeng/tooltip';
+import {
+  MessageModule
+  } from 'primeng/message';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,7 @@ import {TooltipModule} from 'primeng/tooltip';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MessageModule,
     ButtonModule,
     ScrollPanelModule,
     OverlayPanelModule,
