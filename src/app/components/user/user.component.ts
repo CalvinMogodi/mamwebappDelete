@@ -49,7 +49,7 @@ export class UserComponent implements OnInit {
     });
 
     this.items = [
-      { label: 'Dashborad', url: 'dashborad' },
+      { label: 'Dashboard', url: 'dashboard' },
       { label: 'Users' }];
     this.home = { icon: 'pi pi-home' };
     this.cols = [

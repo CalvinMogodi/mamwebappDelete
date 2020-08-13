@@ -1,0 +1,68 @@
+.titlebar {
+    color: #dedede;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.content {
+    padding: 0.571em 1em;
+    color: #dedede;
+    padding: 0.571em 1em;
+    border-top: 0 none;
+}
+
+.legend {
+    text-align: center;
+    margin: 16px 0;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.dwellings .legend-color {
+    background-color: #ed3c76;
+}
+
+.nonRes .legend-color {    
+    background-color: #147df0;
+}
+
+.land .legend-color {
+    background-color: #599597;
+}
+.legend-color {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-bottom: 4px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.legend-name {
+    font-size: 14px;
+}
+
+.legend-number {
+    color: #737373;
+    font-size: 16px;
+}
+
+.dashboard-notifications {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+
+.dashboard-notifications .item {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background-color: hsla(0,0%,100%,.05);
+    min-height: 250px;
+    cursor: pointer;
+}
+
+.capitalize{
+    text-transform: capitalize;
+}
