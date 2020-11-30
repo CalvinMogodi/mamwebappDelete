@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user/user.service';
@@ -15,10 +15,11 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class UserComponent implements OnInit {
   loading = false;
+  isAdding = false;
   users: User[] = [];
   clonedUsers: User[] = [];
   cols: any[];
-  private items: MenuItem[];
+  items: MenuItem[];
   home: MenuItem;
   addUserForm: FormGroup;
   submitted = false;
@@ -34,7 +35,9 @@ export class UserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
     private authenticationService: AuthenticationService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private changeDetectionRef: ChangeDetectorRef) { }
+    roles: any[];
 
   ngOnInit() {
     this.showToast('Update User', 'User has been updated successful.');
@@ -42,10 +45,18 @@ export class UserComponent implements OnInit {
       this.currentUser = x;
     });
 
+    this.roles = [    
+      { name: 'Data Approver', code: 'A', factor: 3 },
+      { name: 'Data Capturer', code: 'C', factor: 1 },
+      { name: 'Data Manager', code: 'M', factor: 4 },
+      { name: 'IT Administrator', code: 'A', factor: 2 },
+    ];
+
     this.addUserForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      role: ['', [Validators.required]]
     });
 
     this.items = [
@@ -57,6 +68,7 @@ export class UserComponent implements OnInit {
       { field: 'surname', header: 'Surname' },
       { field: 'email', header: 'Email' },
       { field: 'createdDate', header: 'Created Date' },
+      { field: 'role', header: 'Role', element: true },
       { field: 'isActive', header: 'Active' }
     ];
 
@@ -114,11 +126,13 @@ export class UserComponent implements OnInit {
     this.messageService.add({ severity: 'error', summary: summary, detail: detail });
   }
 
-  onRowEditInit() { }
+  setDeedsOffice(e){}
+
+  onRowEditInit(e) { }
 
   onSubmit() {
     this.submitted = true;
-    this.loading = false;
+    this.isAdding = false;
     this.error = '';
     // stop here if form is invalid
     if (this.addUserForm.invalid) {
@@ -126,18 +140,18 @@ export class UserComponent implements OnInit {
     }
     var randomstring = Math.random().toString(36).slice(-8);
 
-    this.loading = true;
+    this.isAdding = true;
     var user: User = {
       id: undefined,
       username: this.f.email.value,
       password: randomstring,
       name: this.f.name.value,
       surname: this.f.surname.value,
-      roleId: 1,
+      roleId: this.addUserForm.controls["role"].value.factor,
       isActive: true,
       email: this.f.email.value,
       passwordIsChanged: false,
-      createdDate: new Date,
+      createdDate: new Date, 
       createdUserId: this.currentUser.id
     }
     this.userService.addUser(user).pipe()
@@ -145,11 +159,12 @@ export class UserComponent implements OnInit {
         newUser => {
           this.users.push(newUser);
           this.showDialog = false;
+          this.isAdding = false;
           this.showToast('Add User', 'User has been added successful');
         },
         error => {
           this.error = error;
-          this.loading = false;
+          this.isAdding = false;
         });
   }
 

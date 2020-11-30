@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps'
 
 import { JwtInterceptor } from '../app/helpers/jwt.interceptor';
 import { ErrorInterceptor } from '../app/helpers/error.interceptor';
@@ -15,6 +16,7 @@ import { LoginComponent } from './common/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UserComponent } from './components/user/user.component';
 import { AddUserComponent } from './components/user/add-user/add-user.component';
+import { AssetregisterComponent } from './components/assetregister/assetregister.component'
 
 //primeng
 import { SlideMenuModule } from 'primeng/slidemenu';
@@ -31,9 +33,19 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { ChartModule } from 'primeng/chart';
-import {
-  MessageModule
-} from 'primeng/message';
+import { CardModule } from 'primeng/card';
+import { MessageModule} from 'primeng/message';
+import { StepsModule } from 'primeng/steps';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { TabViewModule } from 'primeng/tabview';
+import { DropdownModule } from 'primeng/dropdown';
+import { FieldsetModule } from 'primeng/fieldset';
+import { FileUploadModule } from 'primeng/fileupload';
+import { AddassetregisterComponent } from './components/assetregister/addassetregister/addassetregister.component';
+import { FinancialsComponent } from './components/assetregister/addassetregister/financials/financials.component';
+import { ImprovementsComponent } from './components/assetregister/addassetregister/improvements/improvements.component';
+import { LandComponent } from './components/assetregister/addassetregister/land/land.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -44,7 +56,12 @@ import {
     DashboardComponent,
     UserComponent,
     AddUserComponent,
-    SidemenuComponent
+    SidemenuComponent,
+    AssetregisterComponent,
+    AddassetregisterComponent,
+    LandComponent,
+    ImprovementsComponent,
+    FinancialsComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +84,16 @@ import {
     CheckboxModule,
     ConfirmDialogModule,
     TooltipModule,
-    ChartModule
+    ChartModule,
+    GoogleMapsModule,
+    StepsModule,
+    CardModule,
+    TabMenuModule,
+    TabViewModule,
+    DropdownModule,
+    FieldsetModule,
+    CalendarModule,
+    FileUploadModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

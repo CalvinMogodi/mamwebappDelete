@@ -15,7 +15,7 @@
 </div>
 <div class="row">
     <p-table #dt [columns]="cols" [paginator]="true" [rows]="10" selectionMode="single" rowExpandMode="single"
-        *ngIf="!isLoading" [value]="users"  dataKey="id" editMode="row">
+        *ngIf="!loading" [value]="users"  dataKey="id" editMode="row">
         <ng-template pTemplate="caption">
             <div style="text-align: right">
                 <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
@@ -50,8 +50,11 @@
                                 <span *ngIf="rowData[col.field] === true">Yes</span>
                                 <span *ngIf="rowData[col.field] === false">No</span>
                             </label>
-                            <label *ngIf="col.field !== 'createdDate' && col.field !== 'isActive'" >
+                            <label *ngIf="col.field !== 'createdDate' && col.field !== 'isActive' && col.field !== 'role'" >
                                 {{rowData[col.field]}}
+                            </label>
+                            <label *ngIf="col.field === 'role'" >
+                                {{rowData[col.field].description}}
                             </label>
                         </ng-template>
                     </p-cellEditor>
@@ -71,7 +74,7 @@
     </p-table>
 </div>
 
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<!--<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>-->
 <p-messages [value]="msgs"></p-messages>
 <div *ngIf="showDialog" class="dialogBackgroud"></div>
 <p-dialog header="Create User" [(visible)]="showDialog" [style]="{width: '40vw'}" [baseZIndex]="10000">
@@ -113,6 +116,18 @@
                     <div *ngIf="submitted && f.email.errors"
                         class="text-error"><br>
                         <div *ngIf="f.email.errors.required">This field is required.</div>                        
+                    </div>                    
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12">
+                <label>Role</label>
+                <div class="ui-inputgroup">
+                    <p-dropdown [style]="{'width':'570px'}" inputId="role" [options]="roles" formControlName="role"
+                                     optionLabel="name"
+                                    placeholder="Select a Role"></p-dropdown>
+                    <div *ngIf="submitted && f.role.errors"
+                        class="text-error"><br>
+                        <div *ngIf="f.role.errors.required">This field is required.</div>                        
                     </div>                    
                 </div>
             </div>

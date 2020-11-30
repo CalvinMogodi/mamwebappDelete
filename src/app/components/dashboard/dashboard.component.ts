@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
 import {MenuItem, MessageService} from 'primeng/api';
 import { User } from '../../models/user.model';
@@ -10,10 +10,32 @@ import { FacilityZoning } from 'src/app/models/Facility-zoning';
 import { FacilityType } from 'src/app/models/facility-type.model';
 import { DashboardWedge } from 'src/app/models/dashboard-wedge.model';
 import { facilitySummaryChart } from 'src/app/models/facility-summary-chart.model';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import {trigger,state,style,transition,animate} from '@angular/animations';
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
+  animations: [
+    trigger('animation', [
+        state('visible', style({
+            transform: 'translateX(0)',
+            opacity: 1
+        })),
+        transition('void => *', [
+            style({transform: 'translateX(50%)', opacity: 0}),
+            animate('300ms ease-out')
+        ]),
+        transition('* => void', [
+            animate(('250ms ease-in'), style({
+                height: 0,
+                opacity: 0,
+                transform: 'translateX(50%)'
+            }))
+        ])
+    ])
+],
   styleUrls: ['./dashboard.component.css']
   , providers: [MessageService]
 })
@@ -26,7 +48,7 @@ export class DashboardComponent implements OnInit {
   wedges: Array<DashboardWedge> = [];
   currentUser: User;
   userFromApi: User;
-  private items: MenuItem[];
+  items: MenuItem[];
   home: MenuItem;
   msgs: Message[] = [];
   data: any;
@@ -38,6 +60,20 @@ export class DashboardComponent implements OnInit {
   numberofProperties: any;
   signedoffProperties: any;
   facilitySummaries: Array<facilitySummaryChart> = [];  
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
+  @ViewChild(MapInfoWindow, { static: false }) info: MapInfoWindow;
+  zoom = 8;
+  infoContent = ''
+  markers=[];
+  center: google.maps.LatLngLiteral
+  options: google.maps.MapOptions = {
+    mapTypeId: 'hybrid',
+    zoomControl: true,
+    scrollwheel: true,
+    disableDoubleClickZoom: true,
+    maxZoom: 18,
+    minZoom: 7,
+  };
 
   constructor( 
     private userService: UserService,
@@ -46,18 +82,30 @@ export class DashboardComponent implements OnInit {
           this.currentUser = this.authenticationService.currentUserValue;
         }
 
+        logCenter() {
+          console.log(JSON.stringify(this.map.getCenter()))
+        }
   ngOnInit() {
+   
+    //navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: -26.0722042,
+        lng: 30.0752488,
+      };
+      this.addMarker();
+    //})
+
     this.items = [{label:'Welcome back to your dashboard'}];
     this.home = {icon: 'pi pi-home'};      
     
     this.facilityService.getFacilityZonings().pipe(first()).subscribe(zonings => {
       this.loadingZonings = false;
       this.zonings = zonings;
-      this.facilityType = this.zonings[0];
+      this.facilityType = this.zonings[0]; 
       this.barChartdata = {
         labels: ['Non Residential Buildings','Dwellings','Land'],
         datasets: [
-            {
+            { 
                 data: [this.nonResidentialBuildings.total, this.dwellings.total, this.land.total],
                 backgroundColor: [
                     "#147df0",
@@ -152,4 +200,28 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  openInfo(marker: MapMarker, content) {
+    this.infoContent = content
+    this.info.open(marker)
+  }
+
+  addMarker() {
+    this.facilityService.getMapCoordinates().pipe(first()).subscribe(mapCoordinates => {
+      mapCoordinates.forEach(element => {
+        let maker = {
+          position: {
+            lat: Number(element.latitude),
+            lng: Number(element.longitude),
+          },
+         // label: {
+         //   color: 'red',
+         //   text: element.description
+         // },
+          title: element.description,
+          //options: { animation: google.maps.Animation.BOUNCE },
+        };
+        this.markers.push(maker);
+      });
+      });
+  }
 }

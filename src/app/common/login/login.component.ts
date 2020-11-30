@@ -73,12 +73,18 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate(['dashboard']);
+          if(data.username != null){
+            this.router.navigate(['dashboard']);
+          }else{
+            this.error = 'Invalid username or password';
+            this.loading = false;
+          }
+          
         },
-        error => {
+        catchError =>(error =>  {
           this.error = error;
           this.loading = false;
-        });
+        }));
   }
 
   onForgotPasswordSubmit(){

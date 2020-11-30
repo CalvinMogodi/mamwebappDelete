@@ -24,45 +24,16 @@ a { cursor: pointer }
 }
 
 .container{
-    padding: 100px 15px 0px 120px;
+    padding: 70px 15px 0px 120px;
     height: 120%;
     width: 100%;
     bottom: 0px;
     position: absolute;
-    top: 0px;
-    background: #26343f;
+	top: 0px;
+	background-color: #f8f8f8;
+	color: #4c4c4c;
 }
 
-body .ui-breadcrumb {
-    background-color: #172027 !important;
-}
-
-body .ui-table .ui-table-caption, body .ui-table .ui-table-summary {
-    background-color: #172027 !important;
-}
-
-body .ui-paginator {
-    background-color: #172027 !important;
-}
-
-body .ui-table .ui-table-tbody > tr {
-    background-color: #26343f !important;
-}
-body .ui-dialog .ui-dialog-titlebar {
-    background-color: #172027 !important;
-}
-
-body .ui-dialog .ui-dialog-content {
-    background-color: #26343f !important;
-}
-
-body .ui-dialog .ui-dialog-footer {
-    background-color: #172027 !important;
-}
-
-body .ui-inputgroup .ui-inputgroup-addon {
-    background-color: #172027 !important;
-}
 
 .dialogBackgroud{
     height: 100%;
@@ -73,8 +44,7 @@ body .ui-inputgroup .ui-inputgroup-addon {
     bottom: 0px;
     position: absolute;
     top: 0px;
-    opacity: 0.7;
-    background: #26343f;
+    opacity: 0.9;
 }
 /* Primeng toast */
 .ui-toast {
@@ -232,4 +202,50 @@ body .ui-toast .ui-toast-message {
 	display: block;
 	margin-bottom: .75em;
 	overflow: hidden;
+}
+
+.ui-tabview-panels {
+    background-color: #FFFFFF0D !important; 
+}
+
+.ui-inputtext {
+	background: transparent !important;
+	border: none !important;
+	border-bottom: 1px solid #585858 !important;
+
+}
+
+.ui-dropdown {
+	background: transparent !important;
+	border: none !important;
+	border-bottom: 1px solid #585858 !important;
+
+}
+
+.ui-dropdown label.ui-dropdown-label{
+	font-weight: normal;
+    color: darkgray !important;
+}
+
+.ui-fieldset {
+	background-color: #FFFFFF0D !important;
+	width: 100% !important;
+	margin-top: 15px;
+	border: none !important;
+}
+
+p-fieldset {
+	background-color: transparent !important;
+	width: 100% !important;
+	margin-top: 15px;
+	border: none !important;
+}
+
+.ui-fieldset-legend a {
+	background-color: lightgray !important;
+    color: #191919 !important;
+}
+
+.ui-dropdown-label-container :focus{
+	border: none !important;
 }

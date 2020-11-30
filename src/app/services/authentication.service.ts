@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -21,7 +22,8 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        return this.http.get<any>(`${environment.apiUrl}/api/user/login/${username}/${password}`)
+        const reqHeader = new HttpHeaders({ 'Content-Type': 'application/json', 'No-Auth': 'True' });
+        return this.http.get<any>(`${environment.apiUrl}/api/user/login/${username}/${password}`, {headers: reqHeader})
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
