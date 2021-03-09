@@ -1,0 +1,866 @@
+
+<p-tabView [(activeIndex)]="activeIndex">
+    <p-tabPanel header="Land">
+        <form [formGroup]="landForm" *ngIf="!loading" (ngSubmit)="onLandFormSubmit()">
+            <div class="ui-g ui-fluid" style="overflow-y: auto; overflow-x: hidden; height: 500px;width: 100%">
+                <div class="ui-g-12 ui-md-12" *ngIf="mode != 'View'">
+                    <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
+                </div>
+                <p-fieldset legend="General" [toggleable]="true" [collapsed]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="deedsOffice">Deeds Office</label>
+                            <p-dropdown [disabled]="mode == 'View'" inputId="deedsOffice" [options]="deedsOffices" formControlName="deedsOffice"
+                                (onChange)="setDeedsOffice($event)" optionLabel="name"
+                                placeholder="Select a Deeds Office"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.deedsOffices.errors" class="text-error"><br>
+                                <div *ngIf="f.deedsOffices.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Asset Class</label>
+                            <p-dropdown inputId="class" [disabled]="mode == 'View'" [options]="classes" formControlName="class"
+                                (onChange)="setClass($event)" optionLabel="name" placeholder="Select a Class">
+                            </p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.class.errors" class="text-error"><br>
+                                <div *ngIf="f.class.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Asset Type</label>
+                            <p-dropdown inputId="type" [disabled]="mode == 'View'" [options]="types" (onChange)="setType($event)"
+                                formControlName="type" optionLabel="name" placeholder="Select a Type"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </p-fieldset>
+                <p-fieldset legend="Geographical Location" [toggleable]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Province</label>
+                            <p-dropdown inputId="province" [(ngModel)]="province" [options]="provinces" formControlName="province"
+                                (onChange)="setProvince($event)" optionLabel="name" placeholder="Select a Province">
+                            </p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="districtMunicipality">District Municipality</label>
+                            <p-dropdown inputId="districtMunicipality" [options]="districtMunicipalities"
+                                formControlName="districtMunicipality" (onChange)="setDistrictMunicipality($event)"
+                                optionLabel="name" placeholder="Select a District Municipality"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="region">Region</label>
+                            <p-dropdown inputId="region" [options]="regions" formControlName="region"
+                                (onChange)="setProvince($event)" optionLabel="name" placeholder="Select a Region">
+                            </p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="localAuthority">Local Authority</label>
+                            <p-dropdown inputId="localAuthority" [options]="localAuthorities"
+                                formControlName="localAuthority" (onChange)="setLocalAuthorities($event)" optionLabel="name"
+                                placeholder="Select a Local Authority"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="magisterialDistrict">Magisterial District</label>
+                            <p-dropdown inputId="magisterialDistrict" [options]="magisterialDistricts" formControlName="magisterialDistrict"
+                                (onChange)="setMagisterialDistrict($event)" optionLabel="name"
+                                placeholder="Select Magisterial District"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Street Number</label>
+                            <input formControlName="streetNumber" autocomplete="off" type="number" pInputText
+                                placeholder="Street Number" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Street Name </label>
+                            <input formControlName="streetName" autocomplete="off" type="text" pInputText
+                                placeholder="Street Name" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Suburb</label>
+                            <input formControlName="suburb" autocomplete="off" type="text" pInputText
+                                placeholder="Suburb" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Town</label>
+                            <input formControlName="town" autocomplete="off" type="text" pInputText
+                                placeholder="Town" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="longitude">GPS Coordinates Longitude</label>
+                            <input formControlName="longitude" ng-pattern="/^[-+]?[0-9]{1,7}(\.[0-9]+)?$/" autocomplete="off" type="number" pInputText
+                                placeholder="Longitude" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="latitude">GPS Coordinates Latitude</label>
+                            <input formControlName="latitude" autocomplete="off" ng-pattern="/^[-+]?[0-9]{1,7}(\.[0-9]+)?$/" type="number" pInputText
+                                placeholder="Latitude" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </p-fieldset>
+                <p-fieldset legend="Property Description" [toggleable]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="registrationDivision">Registration Division</label>
+                            <p-dropdown inputId="registrationDivision" [options]="registrationDivisions" [(ngModel)]="registrationDivision" 
+                                formControlName="registrationDivision" 
+                                optionLabel="name" placeholder="Select Registration Division"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.registrationDivision.errors" class="text-error"><br>
+                                <div *ngIf="f.registrationDivision.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="townshipName">Township Name</label>
+                            <input formControlName="townshipName" autocomplete="off" type="text" pInputText
+                            placeholder="Township Name" class="ui-inputtext ui-widget"
+                            [ngClass]="{ 'is-invalid': submitted && f.townshipName.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.townshipName.errors" class="text-error"><br>
+                                <div *ngIf="f.townshipName.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Land Parcel</label>
+                            <input formControlName="landParcel" autocomplete="off" type="text" pInputText
+                                placeholder="Land Parcel" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Land Portion</label>
+                            <input formControlName="landPortion" autocomplete="off" type="text" pInputText
+                                placeholder="Land Portion" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Old Description</label>
+                            <input formControlName="oldDescription" autocomplete="off" type="text" pInputText
+                                placeholder="Old Description" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Land Remainder</label>
+                            <p-dropdown inputId="landRemainder" [options]="landRemainders"
+                                formControlName="landRemainder" (onChange)="setProvince($event)"
+                                optionLabel="name" placeholder="Select a Land Remainder"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Farm Name</label>
+                            <input formControlName="farmName" autocomplete="off" type="text" pInputText
+                                placeholder="Farm Name" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">SG Diagram Number</label>
+                            <input formControlName="SGDiagramNumber" autocomplete="off" type="text" pInputText
+                                placeholder="SG Diagram Number" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">Extent (Size of Land) (HA)</label>
+                            <input formControlName="extent" autocomplete="off" type="number" pInputText
+                                placeholder="Extent" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">LPI Code </label>
+                            <input formControlName="LPICode" autocomplete="off" type="text" pInputText
+                                placeholder="LPI Code" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="province">How Acquired</label>
+                            <p-dropdown inputId="howAcquired" [options]="howAcquired"[(ngModel)]="howAcquired" formControlName="acquired"
+                                (onChange)="setHowAcquired($event)" optionLabel="name"
+                                placeholder="Select How Acquired"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4" *ngIf="howAcquired.name === 'Other'">
+                            <label for="province">How acquired: other</label>
+                            <input formControlName="acquiredOther" autocomplete="off" type="text" pInputText
+                                placeholder="How Acquired" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.howAcquired.errors" class="text-error"><br>
+                                <div *ngIf="f.howAcquired.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </p-fieldset>
+
+                <p-fieldset legend="Land Use & Management Details" [toggleable]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="titleDeedNumber">Title Deed Number</label>
+                            <input formControlName="titleDeedNumber" autocomplete="off" type="text" pInputText
+                                placeholder="Title Deed Number" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.titleDeedNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.titleDeedNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Registration Date</label>
+                            <p-calendar formControlName="registrationDate" dateFormat="dd/mm/yy"
+                                showOtherMonths="true" showButtonBar="true"></p-calendar>
+                            <div *ngIf="(submitted || landisSubmitted) && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="registeredOwner">Registered Owner</label>
+                            <input formControlName="registeredOwner" autocomplete="off" type="text" pInputText
+                                placeholder="Registered Owner" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.registeredOwner.errors" class="text-error"><br>
+                                <div *ngIf="f.registeredOwner.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="vestingDate">Vesting Date</label>
+                            <p-calendar formControlName="vestingDate" dateFormat="dd/mm/yy"
+                                showOtherMonths="true" showButtonBar="true"></p-calendar>
+                            <div *ngIf="(submitted || landisSubmitted) && f.vestingDate.errors" class="text-error"><br>
+                                <div *ngIf="f.vestingDate.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="conditionsOfTitle">Conditions Of Title</label>
+                            <input formControlName="conditionsOfTitle" autocomplete="off" type="text" pInputText
+                                placeholder="Conditions Of Title" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.conditionsOfTitle.errors" class="text-error"><br>
+                                <div *ngIf="f.conditionsOfTitle.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Ownership Category</label>
+                            <p-dropdown inputId="ownershipCategory" [options]="ownershipCategories"
+                            formControlName="ownershipCategory" 
+                            optionLabel="name" placeholder="Select Ownership Category"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.ownershipCategory.errors" class="text-error"><br>
+                                <div *ngIf="f.ownershipCategory.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="stateOwnedPercentage">State Owned Percentage</label>
+                            <input formControlName="stateOwnedPercentage" autocomplete="off" type="number"
+                                pInputText placeholder="State Owned percentage" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.stateOwnedPercentage.errors" class="text-error"><br>
+                                <div *ngIf="f.stateOwnedPercentage.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="landUse">Land Use %</label>
+                            <input formControlName="landUse" autocomplete="off" type="text" pInputText
+                                placeholder="Land Use" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.landUse.errors" class="text-error"><br>
+                                <div *ngIf="f.landUse.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="zoning">Zoning</label>
+                            <input formControlName="zoning" autocomplete="off" type="text" pInputText
+                                placeholder="Zoning" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.zoning.errors" class="text-error"><br>
+                                <div *ngIf="f.zoning.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="userDepartment">User Department</label>
+                            <p-dropdown inputId="userDepartment" [options]="userDepartments"
+                                formControlName="userDepartment" 
+                                optionLabel="name" placeholder="Select User Department"></p-dropdown>
+
+                            <input formControlName="userDepartment" autocomplete="off" type="number" pInputText
+                                placeholder="User Department" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.userDepartment.errors" class="text-error"><br>
+                                <div *ngIf="f.userDepartment.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="facilityName">Facility Name</label>
+                            <input formControlName="facilityName" autocomplete="off" type="text" pInputText
+                                placeholder="Facility Name" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.facilityName.errors" class="text-error"><br>
+                                <div *ngIf="f.facilityName.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="incomeLeaseStatus">Income Lease Status</label>
+                            <p-dropdown inputId="incomeLeaseStatus" [options]="incomeLeaseStatuses"
+                                formControlName="incomeLeaseStatus" (onChange)="setProvince($event)"
+                                optionLabel="name" placeholder="Select Income Lease Status"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.incomeLeaseStatus.errors" class="text-error"><br>
+                                <div *ngIf="f.incomeLeaseStatus.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </p-fieldset>
+
+                <p-fieldset legend="Lease Status" [toggleable]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="natureOfLease">Nature of Lease</label>
+                            <p-dropdown inputId="natureOfLease" [options]="natureOfLeases"
+                                formControlName="natureOfLease" (onChange)="setDeedsOffice($event)"
+                                optionLabel="name" placeholder="Select Nature of Lease"></p-dropdown>
+                            <div *ngIf="(submitted || landisSubmitted) && f.natureOfLease.errors" class="text-error"><br>
+                                <div *ngIf="f.natureOfLease.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="IDNumberCompanyRegistrationNumber">ID Number/Company Registration
+                                Number</label>
+                            <input formControlName="IDNumberCompanyRegistrationNumber" autocomplete="off"
+                                type="text" pInputText placeholder="ID Number/Company Registration Number"
+                                class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.IDNumberCompanyRegistrationNumber.errors" class="text-error">
+                                <br>
+                                <div *ngIf="f.IDNumberCompanyRegistrationNumber.errors.required">This field is
+                                    required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="POBox">P.O.Box</label>
+                            <input formControlName="POBox" autocomplete="off" type="number" pInputText
+                                placeholder="P.O.Box" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.POBox.errors" class="text-error"><br>
+                                <div *ngIf="f.POBox.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="leaseStatusTown">Town</label>
+                            <input formControlName="leaseStatusTown" autocomplete="off" type="text" pInputText
+                                placeholder="Town" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.town.errors" class="text-error"><br>
+                                <div *ngIf="f.town.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="postalCode">Postal Code</label>
+                            <input formControlName="postalCode" autocomplete="off" type="text" pInputText
+                                placeholder="Postal Code" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.postalCode.errors" class="text-error"><br>
+                                <div *ngIf="f.postalCode.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="contactPerson">Contact Person</label>
+                            <input formControlName="contactPerson" autocomplete="off" type="number" pInputText
+                                placeholder="Contact Person" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.contactPerson.errors" class="text-error"><br>
+                                <div *ngIf="f.contactPerson.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="capacityofContactPerson">Capacity of Contact Person</label>
+                            <input formControlName="capacityofContactPerson" autocomplete="off" type="text"
+                                pInputText placeholder="Capacity of Contact Person" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.capacityofContactPerson.errors" class="text-error"><br>
+                                <div *ngIf="f.capacityofContactPerson.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="contactNumber">Contact Number</label>
+                            <input formControlName="contactNumber" autocomplete="off" type="text" pInputText
+                                placeholder="Contact Number" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.contactNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.contactNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="escalation">Escalation %</label>
+                            <input formControlName="escalation" autocomplete="off" type="number" pInputText
+                                placeholder="Escalation" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.escalation.errors" class="text-error"><br>
+                                <div *ngIf="f.escalation.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="occupationDate">Occupation Date</label>
+                            <p-calendar formControlName="occupationDate" dateFormat="dd/mm/yy"
+                                showOtherMonths="true" showButtonBar="true"></p-calendar>
+                            <div *ngIf="(submitted || landisSubmitted) && f.occupationDate.errors" class="text-error"><br>
+                                <div *ngIf="f.occupationDate.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="startingDate">Starting Date</label>
+                            <p-calendar formControlName="startingDate" dateFormat="dd/mm/yy" showOtherMonths="true"
+                                showButtonBar="true"></p-calendar>
+                            <div *ngIf="(submitted || landisSubmitted) && f.startingDate.errors" class="text-error"><br>
+                                <div *ngIf="f.startingDate.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="terminationDate">Termination Date</label>
+                            <p-calendar formControlName="terminationDate" dateFormat="dd/mm/yy"
+                                showOtherMonths="true" showButtonBar="true"></p-calendar>
+                            <div *ngIf="(submitted || landisSubmitted) && f.terminationDate.errors" class="text-error"><br>
+                                <div *ngIf="f.terminationDate.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="rentalAmount">Rental Amount</label>
+                            <input formControlName="rentalAmount" autocomplete="off" type="number" pInputText
+                                placeholder="Rental Amount" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.rentalAmount.errors" class="text-error"><br>
+                                <div *ngIf="f.rentalAmount.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="otherCharges">Other charges</label>
+                            <input formControlName="otherCharges" autocomplete="off" type="number" pInputText
+                                placeholder="Other charges" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.otherCharges.errors" class="text-error"><br>
+                                <div *ngIf="f.otherCharges.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="leaseNumber">Lease Number</label>
+                            <input formControlName="leaseNumber" autocomplete="off" type="number" pInputText
+                                placeholder="Lease Number" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="(submitted || landisSubmitted) && f.leaseNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.leaseNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="vat">Vat Number</label>
+                            <p-dropdown inputId="vat" [options]="vats"
+                            formControlName="vat" (onChange)="setVat($event)"
+                            optionLabel="name" placeholder="Select Vat"></p-dropdown>
+                            <div *ngIf="submitted && f.vat.errors" class="text-error"><br>
+                                <div *ngIf="f.vat.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </p-fieldset>
+            </div>
+            <p-footer>
+                <button style="float: left; margin-top: 15px;" type="button" pButton icon="pi pi-times"
+                    (click)="showDialog=false" label="Cancel" class="ui-button-secondary"></button>
+                <button style="float: right; margin-top: 15px" type="submit" (click)="activeIndex = 1" pButton
+                    icon="pi pi-angle-right" label="Next"></button>
+                <button style="float: right; margin-top: 15px;margin-right: 10px" type="submit" pButton
+                    icon="pi pi-check" label="Save"></button>
+            </p-footer>
+        </form>
+    </p-tabPanel>
+    <p-tabPanel header="Financials">
+        <form [formGroup]="financialForm" *ngIf="!loading" (ngSubmit)="onFinancialFormSubmit()">
+            <div class="ui-g ui-fluid" style="overflow-y: auto; overflow-x: hidden; height: 500px;width: 100%">
+                <div class="ui-g-12 ui-md-12">
+                    <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
+                </div>
+                <p-fieldset legend="General" [toggleable]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-6 ui-md-6">
+                            <label for="deedsOffice">Land Use Class</label>
+                            <input formControlName="landUseClass" autocomplete="off" type="text" pInputText
+                                placeholder="Land Use Class" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-6 ui-md-6">
+                            <label for="class">Nature of Asset</label>
+                            <input formControlName="natureofAsset" autocomplete="off" type="text" pInputText
+                                placeholder="Nature of Asset" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </p-fieldset>
+
+                <p-fieldset legend="Secondary Information Note" [toggleable]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Additions Cash</label>
+                            <input formControlName="additionCash" autocomplete="off" type="text" pInputText
+                                placeholder="Additions Cash" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="deedsOffice">Additions Non Cash</label>
+                            <input formControlName="landUseClass" autocomplete="off" type="text" pInputText
+                                placeholder="Building Name" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Additions</label>
+                            <input formControlName="natureofAsset" autocomplete="off" type="text" pInputText
+                                placeholder="Additions" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-6 ui-md-6">
+                            <label for="type">Disposal</label>
+                            <input formControlName="additionCash" autocomplete="off" type="text" pInputText
+                                placeholder="Disposal" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-6 ui-md-6">
+                            <label for="deedsOffice">Closing Balance</label>
+                            <input formControlName="landUseClass" autocomplete="off" type="text" pInputText
+                                placeholder="Closing Balance" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </p-fieldset>
+
+                <p-fieldset legend="Valuations" [toggleable]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Municipal Valuations</label>
+                            <input formControlName="additionCash" autocomplete="off" type="text" pInputText
+                                placeholder="Municipal Valuations" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="dateofMunicipalValuation">Date of Municipal Valuation</label>
+                            <p-calendar formControlName="dateofMunicipalValuation" dateFormat="dd/mm/yy"
+                            showOtherMonths="true" showButtonBar="true"></p-calendar>
+                            <div *ngIf="submitted && f.dateofMunicipalValuation.errors" class="text-error"><br>
+                                <div *ngIf="f.dateofMunicipalValuation.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Non Municipal Valuation</label>
+                            <input formControlName="natureofAsset" autocomplete="off" type="text" pInputText
+                                placeholder="Non Municipal Valuation" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Value</label>
+                            <input formControlName="additionCash" autocomplete="off" type="text" pInputText
+                                placeholder="Value" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="dateofNonMunicipalValuation">Date of Non Municipal Valuation</label>
+                            <p-calendar formControlName="dateofNonMunicipalValuation" dateFormat="dd/mm/yy"
+                            showOtherMonths="true" showButtonBar="true"></p-calendar>
+                            <div *ngIf="submitted && f.dateofNonMunicipalValuation.errors" class="text-error"><br>
+                                <div *ngIf="f.dateofNonMunicipalValuation.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Property Rates Account No</label>
+                            <input formControlName="natureofAsset" autocomplete="off" type="text" pInputText
+                                placeholder="Property Rates Account No" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-6 ui-md-6">
+                            <label for="type">Account no for Services</label>
+                            <input formControlName="additionCash" autocomplete="off" type="text" pInputText
+                                placeholder="Account no for Services" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-6 ui-md-6">
+                            <label for="deedsOffice">Person/Institution responsible for account</label>
+                            <input formControlName="landUseClass" autocomplete="off" type="text" pInputText
+                                placeholder="Person/Institution responsible for account"
+                                class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </p-fieldset>
+            </div>
+            <p-footer>
+                <button style="float: left; margin-top: 15px;" type="button" pButton icon="pi pi-angle-left"
+                    (click)="activeIndex = 0" label="Back" class="ui-button-secondary"></button>
+                <button style="float: right; margin-top: 15px" type="submit" pButton icon="pi pi-angle-right"
+                    label="Next" (click)="activeIndex = 2"></button>
+                <button style="float: right; margin-top: 15px;margin-right: 10px" type="submit" pButton
+                    icon="pi pi-check" label="Save"></button>
+            </p-footer>
+        </form>
+    </p-tabPanel>
+    <p-tabPanel header="Improvement">
+       
+        <form [formGroup]="improvementForm" *ngIf="!loading" (ngSubmit)="onImprovementFormSubmit()">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-12">
+                    <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
+                </div>
+                <p-fieldset legend="General" [toggleable]="true">
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="deedsOffice">Building Name</label>
+                            <input formControlName="buildingName" autocomplete="off" type="text" pInputText
+                                placeholder="Building Name" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Type</label>
+                            <p-dropdown inputId="typeOfImprovement" [options]="typeOfImprovements"
+                                formControlName="typeOfImprovement" (onChange)="setClass($event)"
+                                optionLabel="typeOfImprovement" placeholder="Select a Improvement type">
+                            </p-dropdown>
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Size (m2)</label>
+                            <input formControlName="sizeofImprovement" autocomplete="off" type="number" pInputText
+                                placeholder="Size" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-12">
+
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Potential Use</label>
+                            <p-dropdown inputId="potentialUse" [options]="potentialUseList"
+                                formControlName="potentialUse" (onChange)="setClass($event)"
+                                optionLabel="name" placeholder="Select a Potential Use">
+                            </p-dropdown>
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="siteCoverag">Site Coverage %</label>
+                            <input formControlName="siteCoverag" autocomplete="off" type="number" pInputText
+                                placeholder="Site Coverag" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.siteCoverag.errors" class="text-error"><br>
+                                <div *ngIf="f.siteCoverag.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Level of Utilization %</label>
+                            <input formControlName="sizeofImprovement" autocomplete="off" type="number" pInputText
+                                placeholder="size of Improvement" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="deedsOffice">Extent of Building (m2)</label>
+                            <input formControlName="extentofBuilding" autocomplete="off" type="number" pInputText
+                                placeholder="Extent of Building" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.extentofBuilding.errors" class="text-error"><br>
+                                <div *ngIf="f.extentofBuilding.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Condition Rating</label>
+                            <p-dropdown inputId="conditionRating" [options]="conditionRatings"
+                                formControlName="conditionRating" (onChange)="setConditionRating($event)"
+                                optionLabel="name" placeholder="Select condition rating">
+                            </p-dropdown>
+                            <div *ngIf="submitted && f.conditionRating.errors" class="text-error"><br>
+                                <div *ngIf="f.conditionRating.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Usable area(m2)</label>
+                            <input formControlName="usableArea" autocomplete="off" type="number" pInputText
+                                placeholder="Usable Area" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.usableArea.errors" class="text-error"><br>
+                                <div *ngIf="f.usableArea.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="class">Functional Performance Rating</label>
+                            <p-dropdown inputId="functionalPerformanceRating" [options]="functionalPerformanceRatings"
+                                formControlName="functionalPerformanceRating" (onChange)="setClass($event)"
+                                optionLabel="name" placeholder="Select a functional performance rating">
+                            </p-dropdown>
+                            <div *ngIf="submitted && f.functionalPerformanceRating.errors" class="text-error"><br>
+                                <div *ngIf="f.functionalPerformanceRating.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-4 ui-md-4">
+                            <label for="type">Comments</label>
+                            <input formControlName="sizeofImprovement" autocomplete="off" type="text" pInputText
+                                placeholder="size of Improvement" class="ui-inputtext ui-widget"
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                            <div *ngIf="submitted && f.fileReferenceNumber.errors" class="text-error"><br>
+                                <div *ngIf="f.fileReferenceNumber.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </p-fieldset>
+            </div>
+
+            <p-footer>
+                <button style="float: left; margin-top: 15px;" type="button" pButton icon="pi pi-angle-left"
+                    (click)="activeIndex = 1" label="Back" class="ui-button-secondary"></button>
+                <button style="float: right; margin-top: 15px" type="submit"  (click)="onSubmit()" pButton icon="pi pi-angle-right"
+                    label="Submit" (click)="activeIndex = 2"></button>
+                <button style="float: right; margin-top: 15px;margin-right: 10px" type="button" pButton
+                    icon="pi pi-check" label="Save"></button>
+            </p-footer>
+        </form>
+    </p-tabPanel>
+</p-tabView>

@@ -1,0 +1,30 @@
+.ar-card{
+    background: #FFFFFF0D;
+    color: #fff;
+    position: absolute;
+    border-radius: .55rem;
+    margin-bottom: 30px;
+    transition: .5s;
+    border: 0;
+    width: 24%;
+    text-align: center;
+    vertical-align: middle;
+    height: 130px;
+}
+
+.ar-card > h1{
+    color: #66cfb6;
+    font-size: 2em;
+    font-weight: 700;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.ar-card > p{
+    color: #c4c7ca;
+    font-size: 1.2em;
+    font-weight: lighter;
+}
+
+.ui-tabview-panels {
+    background-color: transparent !important;    
+}

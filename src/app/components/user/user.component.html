@@ -1,0 +1,145 @@
+<p-toast [style]="{marginTop: '80px'}" position="top-right"></p-toast>
+
+<div class="text-center" style="color: red;" *ngIf="error">
+    <h5 class="mt-20">
+        <li class="pi pi-exclamation-triangle" style="color: red;font-size: xx-large;"></li><span> An error has occured...</span>
+    </h5>
+    <h6 class="color-aqua">{{errorMsg}}</h6>
+</div>
+
+<div class="row">
+    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+</div>
+<div class="row">
+    <button style="float: right;" (click)="showDialog=true" pButton type="button" label="Add User" class="ui-button-info"></button>
+</div>
+<div class="row">
+    <p-table #dt [columns]="cols" [paginator]="true" [rows]="10" selectionMode="single" rowExpandMode="single"
+        *ngIf="!loading" [value]="users"  dataKey="id" editMode="row">
+        <ng-template pTemplate="caption">
+            <div style="text-align: right">
+                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Global Filter" class="ui-inputtext ui-widget"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of cols">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th style="width:10em">Reset Password</th>
+                <th style="width:8em"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="rowData">
+                <td *ngFor="let col of cols">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input" >
+                            <input required *ngIf="col.field === 'name' || col.field === 'surname' || col.field === 'email'" pInputText type="text" [(ngModel)]="rowData[col.field]" class="ui-inputtext ui-widget" [ngClass]="{ 'is-invalid': submitted && f.newpassword.errors }">
+                            <p-checkbox *ngIf="col.field === 'isActive'" name="groupname" [value]="rowData[col.field]" [(ngModel)]="rowData[col.field]"></p-checkbox>
+                            <label  *ngIf="col.field === 'createdDate'">{{rowData[col.field] | date:'yyyy MMMM d'}}</label> 
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <label *ngIf="col.field === 'createdDate'" >
+                                {{rowData[col.field] | date:'yyyy MMMM d'}}
+                            </label>
+                            <label *ngIf="col.field === 'isActive'" >
+                                <span *ngIf="rowData[col.field] === true">Yes</span>
+                                <span *ngIf="rowData[col.field] === false">No</span>
+                            </label>
+                            <label *ngIf="col.field !== 'createdDate' && col.field !== 'isActive' && col.field !== 'role'" >
+                                {{rowData[col.field]}}
+                            </label>
+                            <label *ngIf="col.field === 'role'" >
+                                {{rowData[col.field].name}}
+                            </label>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+               
+                <td>
+                    <a (click)="confirm1(rowData)"> Reset</a>
+                </td>
+                
+                <td style="text-align:center">
+                    <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                    <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                    <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!--<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>-->
+<p-messages [value]="msgs"></p-messages>
+<div *ngIf="showDialog" class="dialogBackgroud"></div>
+<p-dialog header="Create User" [(visible)]="showDialog" [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12">
+                <label>Name</label>
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-key" style="line-height: 1.25;"></i></span>
+                    <input formControlName="name" autocomplete="off" type="text" pInputText placeholder="Name"
+                        class="ui-inputtext ui-widget" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                        >
+                    <div *ngIf="submitted && f.name.errors"
+                        class="text-error"><br>
+                        <div *ngIf="f.name.errors.required">This field is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12">
+                <label>Surname</label>
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-key" style="line-height: 1.25;"></i></span>
+                    <input formControlName="surname" autocomplete="off" type="text" pInputText placeholder="Surname"
+                        class="ui-inputtext ui-widget" [ngClass]="{ 'is-invalid': submitted && f.surname.errors }"
+                        required>
+                    <div *ngIf="submitted && f.surname.errors"
+                        class="text-error"><br>
+                        <div *ngIf="f.surname.errors.required">This field is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12">
+                <label>Email Address</label>
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-key" style="line-height: 1.25;"></i></span>
+                    <input  formControlName="email" type="text" autocomplete="off" pInputText placeholder="Email"
+                        class="ui-inputtext ui-widget"
+                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required>
+                    <div *ngIf="submitted && f.email.errors" class="text-error"><br>                       
+                        <div *ngIf="f.email.errors.required">This field is required.</div>  
+                        <div *ngIf="f.email.errors.email">Please enter vaild email address.</div>                      
+                    </div>  
+                    
+                    <div *ngIf="emailExsist">This email address is already in use</div>                  
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12">
+                <label>Role</label>
+                <div class="ui-inputgroup">
+                    <p-dropdown [style]="{'width':'570px'}" inputId="role" [options]="roles" formControlName="role"
+                                     optionLabel="name"
+                                    placeholder="Select a Role"></p-dropdown>
+                    <div *ngIf="submitted && f.role.errors"
+                        class="text-error"><br>
+                        <div *ngIf="f.role.errors.required">This field is required.</div>                        
+                    </div>                    
+                </div>
+            </div>
+            <div ngIf="newUserError" style="color: red;" class="alert alert-danger mt-3 mb-0 text-error text-center">{{newUserError}}</div>
+        </div>
+        <p-footer>
+            <br><br>
+            <button style="float: left;" type="button" pButton icon="pi pi-times" (click)="showDialog=false"
+                label="Cancel" class="ui-button-secondary"></button>
+            <button style="float: right;" type="submit" pButton icon="pi pi-check" label="Submit"></button>
+        </p-footer>
+    </form>
+</p-dialog>

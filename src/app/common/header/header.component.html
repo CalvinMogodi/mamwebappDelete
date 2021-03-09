@@ -1,0 +1,82 @@
+<div class="topbar clearfix">
+    <div class="topbar-left">
+        <img class="topbar-logo" src="../../../assets/images/logo.png">
+    </div>
+    <div class="topbar-right">
+
+        <a (click)="showSideMenu = !showSideMenu" id="menu-button" class="">
+            <i *ngIf="showSideMenu == true" class="pi pi-angle-left"></i>
+            <i *ngIf="showSideMenu == false" class="pi pi-angle-right"></i>
+        </a><a href="#" id="topbar-menu-button"><i class="fa fa-bars"></i></a>
+        <ul class="topbar-items fadeInDown">
+            <li><a (click)="showSettings = !showSettings"><i class="pi pi-cog topbar-icon"></i> <span
+                        class="topbar-item-name">Settings</span></a>
+                <ul class="layout-menu fadeInDown" *ngIf="showSettings">
+                    <li role="menuitem"><a (click)="showDialog = !showDialog; showSettings = false"><i
+                                class="pi pi-key"></i><span>Change Password</span></a>
+                    </li>
+                    <li role="menuitem"><a (click)="logout()"><i class="pi pi-lock"></i><span>Logout</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div *ngIf="showSideMenu" class="transition-delay">
+    <app-sidemenu></app-sidemenu>
+</div>
+<div *ngIf="showDialog" class="dialogBackgroud"></div>
+<p-dialog header="Change Password" [(visible)]="showDialog" [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12">
+                <label>Old Password</label>
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-key" style="line-height: 1.25;"></i></span>
+                    <input formControlName="oldpassword" type="password" pInputText placeholder="Old Password"
+                        class="ui-inputtext ui-widget" [ngClass]="{ 'is-invalid': submitted && f.oldpassword.errors }">
+                </div>
+                <div *ngIf="submitted && f.oldpassword.errors" class="text-error">
+                    <div *ngIf="f.oldpassword.errors.required">This field is required.</div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12">
+                <label>New Password</label>
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-key" style="line-height: 1.25;"></i></span>
+                    <input formControlName="newpassword" type="password" pInputText placeholder="New Password"
+                        class="ui-inputtext ui-widget" [ngClass]="{ 'is-invalid': submitted && f.newpassword.errors }"
+                        required>
+                </div>
+                <div *ngIf="submitted && f.newpassword.errors" class="text-error">
+                    <div *ngIf="f.newpassword.errors.required">This field is required.</div>
+                    <div *ngIf="f.newpassword.errors.pattern">The password does not meet the password policy
+                        requirements.</div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12">
+                <label>Confirm Password</label>
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-key" style="line-height: 1.25;"></i></span>
+                    <input formControlName="confirmpassword" type="password" pInputText placeholder="Confirm Password"
+                        class="ui-inputtext ui-widget"
+                        [ngClass]="{ 'is-invalid': submitted && f.confirmpassword.errors }" required>
+
+                </div>
+                <div *ngIf="submitted && f.confirmpassword.errors" class="text-error">
+                    <div *ngIf="f.confirmpassword.errors.required">This field is required.</div>
+
+                </div>
+                <div class="text-error " *ngIf="f.confirmpassword.value !== f.newpassword.value">Passwords do not match.
+                </div>
+            </div>
+            <div *ngIf="error" class="alert alert-danger mt-3 mb-0 text-error text-center">{{error}}</div>
+        </div>
+        <p-footer>
+            <button style="float: left;" type="button" pButton icon="pi pi-times" (click)="showDialog=false"
+                label="Cancel" class="ui-button-secondary"></button>
+            <button style="float: right;" type="submit" pButton icon="pi pi-check" label="Submit"></button>
+        </p-footer>
+    </form>
+</p-dialog>
+
+<p-toast [style]="{marginTop: '80px'}" position="top-right"></p-toast>

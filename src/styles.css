@@ -1,0 +1,252 @@
+/* You can add global styles to this file, and also import other style files */
+a { cursor: pointer }
+
+.text-center{
+    text-align: center;
+}
+
+.row{
+    padding: 15px 0px 15px 0px;
+}
+:host ::ng-deep button {
+    margin-right: .25em;
+}
+
+:host ::ng-deep .custom-toast .ui-toast-message {
+    color: #ffffff;
+    background: #FC466B;
+    background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+    background: linear-gradient(to right, #3F5EFB, #FC466B);
+}
+
+:host ::ng-deep .custom-toast .ui-toast-close-icon {
+    color: #ffffff;
+}
+
+.container{
+    padding: 70px 15px 0px 120px;
+    height: 120%;
+    width: 100%;
+    bottom: 0px;
+    position: absolute;
+	top: 0px;
+	background-color: #f8f8f8;
+	color: #4c4c4c;
+}
+
+
+.dialogBackgroud{
+	background-color: gray;
+    height: 100%;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    z-index: 11000;
+    bottom: 0px;
+    position: absolute;
+    top: 0px;
+    opacity: 0.5;
+}
+/* Primeng toast */
+.ui-toast {
+	position: fixed;
+	width: 20em;
+}
+
+.ui-toast .ui-toast-message {
+	position: relative;
+	display: block;
+	margin-bottom: .75em;
+	overflow: hidden;
+}
+
+.ui-toast .ui-toast-message-content {
+	padding: .5em 1em;
+}
+
+.ui-toast .ui-toast-close-icon {
+	position: absolute;
+	top: .25em;
+	right: .25em;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.ui-toast .ui-toast-summary {
+	font-weight: bold;
+	padding: 0 0 .5em 0;
+	display: block;
+}
+
+.ui-toast .ui-toast-icon {
+	position: absolute;
+	display: inline-block;
+	left: .5em;
+	top: .25em;
+	padding: 0;
+	font-size: 2em;
+}
+
+.ui-toast .ui-toast-message-text-content {
+	padding: 0 0 .25em 0;
+	margin-left: 2.5em;
+}
+
+/*Positions*/
+.ui-toast-top-right {
+	top: 20px;
+	right: 20px;
+}
+
+.ui-toast-top-left {
+	top: 20px;
+	left: 20px;
+}
+
+.ui-toast-bottom-right {
+	bottom: 20px;
+	right: 20px;
+}
+
+.ui-toast-bottom-left {
+	bottom: 20px;
+	right: 20px;
+}
+
+.ui-toast-top-center {
+	top: 20px;
+	left: 50%;
+	margin-left: -10em;
+}
+
+.ui-toast-bottom-center {
+	bottom: 20px;
+	left: 50%;
+	margin-left: -10em;
+}
+
+.ui-toast-center {
+	left: 50%;
+	top: 50%;
+	min-width: 20vw;
+	transform: translate(-50%, -50%);
+}
+
+body .ui-toast .ui-toast-message {
+	-webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+	-moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+	margin: 0 0 1em 0;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-info {
+	background-color: #7fbcec;
+	border: 0 none;
+	color: #212121;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-info .ui-toast-close-icon {
+	color: #212121;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-success {
+	background-color: #b7d8b7;
+	border: 0 none;
+	color: #212121;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-success .ui-toast-close-icon {
+	color: #212121;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-warn {
+	background-color: #ffe399;
+	border: 0 none;
+	color: #212121;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-warn .ui-toast-close-icon {
+	color: #212121;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-error {
+	background-color: #f8b7bd;
+	border: 0 none;
+	color: #212121;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-error .ui-toast-close-icon {
+	color: #212121;
+}
+
+body .ui-widget {
+	font-family: "Open Sans", "Helvetica Neue", sans-serif;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+.ui-widget, .ui-widget * {
+	box-sizing: border-box;
+}
+
+.ui-widget, .ui-widget * {
+	border-spacing: 0px;
+}
+
+body .ui-toast .ui-toast-message {
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+	margin: 0 0 1em 0;
+}
+
+.ui-toast .ui-toast-message {
+	position: relative;
+	display: block;
+	margin-bottom: .75em;
+	overflow: hidden;
+}
+
+.ui-tabview-panels {
+    background-color: #FFFFFF0D !important; 
+}
+
+.ui-inputtext {
+	background: transparent !important;
+	border: none !important;
+	border-bottom: 1px solid #585858 !important;
+
+}
+
+.ui-dropdown {
+	background: transparent !important;
+	border: none !important;
+	border-bottom: 1px solid #585858 !important;
+
+}
+
+.ui-dropdown label.ui-dropdown-label{
+	font-weight: normal;
+    color: darkgray !important;
+}
+
+.ui-fieldset {
+	background-color: #FFFFFF0D !important;
+	width: 100% !important;
+	margin-top: 15px;
+	border: none !important;
+}
+
+p-fieldset {
+	background-color: transparent !important;
+	width: 100% !important;
+	margin-top: 15px;
+	border: none !important;
+}
+
+.ui-fieldset-legend a {
+	background-color: lightgray !important;
+    color: #191919 !important;
+}
+
+.ui-dropdown-label-container :focus{
+	border: none !important;
+}

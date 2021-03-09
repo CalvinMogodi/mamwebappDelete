@@ -1,0 +1,130 @@
+.titlebar {
+    color: #dedede;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.content {
+    padding: 0.571em 1em;
+    color: #dedede;
+    padding: 0.571em 1em;
+    border-top: 0 none;
+}
+
+.legend {
+    text-align: center;
+    margin: 16px 0;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.dwellings .legend-color {
+    background-color: #ed3c76;
+}
+
+.nonRes .legend-color {    
+    background-color: #147df0;
+}
+
+.land .legend-color {
+    background-color: #599597;
+}
+.legend-color {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-bottom: 4px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.legend-name {
+    font-size: 14px;
+}
+
+.legend-number {
+    color: #737373;
+    font-size: 16px;
+}
+
+.dashboard-notifications {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+
+.dashboard-notifications .item {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background-color: hsla(0,0%,100%,.05);
+    min-height: 250px;
+    cursor: pointer;
+}
+
+.capitalize{
+    text-transform: capitalize;
+}
+
+.db-card{
+    background: #FFFFFF0D;
+    position: absolute;
+    border-radius: .55rem;
+    margin-bottom: 30px;
+    transition: .5s;
+    border: 0;
+    width: 15%;
+    text-align: center;
+    vertical-align: middle;
+    height: 130px;
+}
+
+.db-card > p{
+    color: #66cfb6;
+    font-size: 2em;
+    font-weight: 700;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.db-card > h3{
+    color: #006430;
+    font-size: 1.2em;
+    font-weight: lighter;
+}
+
+.db-card > h4{
+    color: #006430;
+    font-size: 1.2em;
+    font-weight: lighter;
+}
+
+.ui-menuitem-text {
+    color: #006430 !important;
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+}
+
+.box {
+    background-color: var(--surface-e);
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+}
+
+.box-stretched {
+    height: 100%;
+}
+
+.vertical-container {
+    margin: 0;
+    height: 200px;
+    background: var(--surface-d);
+    border-radius: 4px;
+}
+
+.nested-grid .p-col-4 {
+    padding-bottom: 1rem;
+}

@@ -1,0 +1,78 @@
+<p-toast [style]="{marginTop: '80px'}" position="top-right"></p-toast>
+<div class="login-body">
+    <div class="mobile-banner">
+        <img src="../../../assets/images/logo.png" alt="prestige-layout">
+    </div>
+    <div class="login-panel">
+        <div class="logo">
+            <img src="../../../assets/images/logo.png" alt="prestige-layout">
+        </div>
+    </div>
+    <div class="login-card">
+        <div class="top-border"></div>
+        <div class="login-content">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <h1>Login</h1>
+                <p>Welcome, please use the form to sign-in.</p>
+                <div class="username-container">
+                    <label>Username</label>
+                    <div class="login-input">
+                        <input formControlName="username" type="text" autocomplete="off" placeholder="Username" class="ui-inputtext ui-widget" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                        <div *ngIf="submitted && f.username.errors" class="text-error">
+                            <div *ngIf="f.username.errors.required">username is required.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="password-container">
+                    <label>Password</label>
+                    <div class="login-input">
+                        <input formControlName="password" type="password" autocomplete="off" placeholder="Password" class="ui-inputtext ui-widget" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                        <div *ngIf="submitted && f.password.errors" class="text-error">
+                            <div *ngIf="f.password.errors.required">password is required.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="forgetpassword-container">
+                <a (click)="showDialog = !showDialog" class="forget-password">Forgot Password?</a>
+            </div>
+                <div>
+
+                    <button [disabled]="loading" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                       <span class="ui-button-text ui-c">Sign In  <i *ngIf="loading" class="pi pi-spin pi-spinner" style="font-size: 1.5em; margin-top: -5px;"></i></span>
+                    </button>
+                </div>
+                <div *ngIf="error" class="alert alert-danger mt-3 mb-0 text-error text-center">{{error}}</div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showDialog" class="dialogBackgroud"></div>
+
+<p-dialog header="Forgot Password" [(visible)]="showDialog" [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <form [formGroup]="forgotPasswordForm" (ngSubmit)="onForgotPasswordSubmit()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12">
+                <label>Username</label>
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-key" style="line-height: 1.25;"></i></span>
+                    <input formControlName="username" type="text" pInputText placeholder="Username"
+                        class="ui-inputtext ui-widget"
+                        [ngClass]="{ 'is-invalid': forgotPasswordSubmitted && ff.username.errors }" required>                                         
+                    </div>
+                    <div *ngIf="forgotPasswordSubmitted && ff.username.errors"
+                    class="text-error">
+                    <div *ngIf="ff.username.errors.required">This field is required.</div>                      
+                </div>
+            </div>
+            <div style="padding-left: 35%;" *ngIf="forgotPasswordError" class="alert alert-danger mt-3 mb-0 text-error text-center">{{forgotPasswordError}}</div>
+        </div>
+        <p-footer>
+            <button style="float: left;" type="button" pButton icon="pi pi-times" (click)="showDialog=false"
+                label="Cancel" class="ui-button-secondary"></button>
+                <button style="float: right;" [disabled]="forgotPasswordLoading" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                    <span class="ui-button-text ui-c">Submit  <i *ngIf='forgotPasswordLoading' class="pi pi-spin pi-spinner" style="font-size: 1.5em; margin-top: -5px;"></i></span>
+                 </button>
+        </p-footer>
+    </form>
+</p-dialog>
